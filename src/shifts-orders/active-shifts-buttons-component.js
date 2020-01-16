@@ -25,6 +25,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
+  Calendar,
 } from '@material-ui/pickers';
 
 import InputLabel from '@material-ui/core/InputLabel';
@@ -32,13 +33,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import DateContextHOC from './../context/DateContextHOC';
 
 const StyledNav = styled.div`
         
 `;
  
 
-export default class ActiveShiftsButtonsComponent extends React.Component {
+class ActiveShiftsButtonsComponent extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -50,8 +52,8 @@ export default class ActiveShiftsButtonsComponent extends React.Component {
         }
         
     }
-    handleDateChange = date => {
-        this.setState({date: date});
+    handleDateChange = (date,value) => {
+        this.setState({date: value});
     };
     handleClickOpen = ()=> {
         this.setState({openModel: true})
@@ -72,6 +74,7 @@ export default class ActiveShiftsButtonsComponent extends React.Component {
         this.setState({searchVal: e.target.value});
     }
     render(){
+        let {date, updateDate} = this.props && this.props.context;
         return( 
                 <Box display="flex" className="active-shifts-buttons-container">
                     <div className="calender-controls">
@@ -86,8 +89,9 @@ export default class ActiveShiftsButtonsComponent extends React.Component {
                                 Tomorrow
                             </Link>
                             </div>
-                            
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            {/* <DateContext.Consumer> */}
+                            {/* {({date, updateDate}) => */}
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant="inline"
@@ -96,13 +100,15 @@ export default class ActiveShiftsButtonsComponent extends React.Component {
                                     autoOk
                                     id="date-picker-inline"
                                     label="Date picker inline"
-                                    value={this.state.date}
-                                    onChange={this.handleDateChange}
+                                    value={date}
+                                    onChange={updateDate}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
                                 />
                                 </MuiPickersUtilsProvider>
+                             {/* } */}
+                            {/* </DateContext.Consumer> */}
                        </Box>
                     </div>
                     <div className="other-controls">
@@ -137,3 +143,5 @@ export default class ActiveShiftsButtonsComponent extends React.Component {
     }
     
 }
+
+export default DateContextHOC(ActiveShiftsButtonsComponent)

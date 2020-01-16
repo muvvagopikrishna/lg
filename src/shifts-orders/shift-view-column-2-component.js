@@ -12,15 +12,17 @@ import ShiftsViewNotificationsComponent from './shifts-view-notifications-compon
 import CompletedShiftViewButtonsComponent from './completed-shift-view-buttons-component';
 import { useState, useEffect } from 'react';
 import { getShiftViewData } from './actions/shifts-orders-actions';
+import DateContextHOC from './../context/DateContextHOC';
 
-export default class ShiftViewColumn2Component extends React.Component {
+
+class ShiftViewColumn2Component extends React.Component {
     constructor(props) {
         super(props);
         this.state = { shiftViewData: {}, rowData: [], openDialogue: false }
     }
     componentDidMount() {
-        getShiftViewData(this.props.data.id).then(res => {
-            console.log(res)
+        let {date} =  this.props && this.props.context;
+        getShiftViewData(this.props.data.id, date).then(res => {
             this.setState({ shiftViewData: res.data.response, rowData: res.data.response.role_details });
         })
 
@@ -67,10 +69,11 @@ export default class ShiftViewColumn2Component extends React.Component {
                         <div className="attachment-section"> Attachment Required </div>
                     </Box>
                 </div>
-                {this.props.type !== "completed-shift" && <ShiftsViewNotificationsComponent />}
+                {this.props.type !== "completed-shift" && <ShiftsViewNotificationsComponent shiftViewData={this.state.shiftViewData} />}
 
 
             </Paper>
         )
     }
 }
+export default  DateContextHOC (ShiftViewColumn2Component);

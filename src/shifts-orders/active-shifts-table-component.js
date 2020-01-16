@@ -4,6 +4,8 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import {getShifts} from './actions/shifts-orders-actions'
 import LgTable from '../LgTable';
+import DateContextHOC from './../context/DateContextHOC';
+
 class ActiveShiftsList extends Component {
   constructor(props) {
     super(props);
@@ -12,8 +14,9 @@ class ActiveShiftsList extends Component {
       rowData: []
     }
   }
-  componentDidMount(){
-    getShifts().then( res => {
+  componentDidMount(){;
+    let {date} = this.props && this.props.context;
+    getShifts(date).then( res => {
       this.setState({rowData : res.data.response})
       this.props.setDataForClientsInfo(res.data.response);
     })
@@ -34,4 +37,4 @@ class ActiveShiftsList extends Component {
   }
 }
 
-export default ActiveShiftsList;
+export default DateContextHOC(ActiveShiftsList);

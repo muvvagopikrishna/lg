@@ -24,8 +24,10 @@ import FaceIcon from '@material-ui/icons/Face';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import {assignMembers} from './actions/shifts-orders-actions';
+import DateContextHOC from './../context/DateContextHOC';
 
-export default class AssignComponent extends React.Component {
+
+class AssignComponent extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -46,8 +48,7 @@ export default class AssignComponent extends React.Component {
 		}
 	}
 	assignEmployees = () => {
-		console.log(this.props.assignData)
-		alert(this.props.assignData&& this.props.assignData.shift_id)
+		let {date} = this.props && this.props.context;
 		let data = { member_id:this.selectedMemberList,shift_application_id:this.selectedShiftApplications, shift_id : this.props.assignData && this.props.assignData.shift_id}
 		assignMembers(data).then((response)=>{
 			console.log(response)
@@ -64,7 +65,7 @@ export default class AssignComponent extends React.Component {
 		let members = this.props.assignData && this.props.assignData[member];
 		console.log(members)
 		return (		
-			<div>
+			<Box display="flex" className="all-employee-sections-container" justifyContent="space-between">
 			{ members && members.map((item,key) => { 
 				return <Box display="flex" className="each-employee-section" justifyContent="space-between" key='key'>
 					<FaceIcon />
@@ -84,7 +85,7 @@ export default class AssignComponent extends React.Component {
 					/>
 				</Box>
 			})}
-			</div>
+			</Box>
 		)
 	}
 	render() {
@@ -124,12 +125,9 @@ export default class AssignComponent extends React.Component {
 								</Chip><Chip className="each-notification" icon={<FaceIcon />} label="Deletable primary notification. for more details please contact in person" onDelete={this.handleDelete} color="" >
 								<div> hello</div>
 							</Chip> */}
-							
-							<Box display="flex" className="all-employee-sections-container" justifyContent="space-between">
-								{this.state.currentTab === 'assigned_members' && this.renderMembers('assigned_members')}
-								{this.state.currentTab === 'previous_members' && this.renderMembers('previous_members')}
-								{this.state.currentTab === 'inhouse_members' && this.renderMembers('inhouse_members')}
-							</Box>
+							{this.state.currentTab === 'assigned_members' && this.renderMembers('assigned_members')}
+							{this.state.currentTab === 'previous_members' && this.renderMembers('previous_members')}
+							{this.state.currentTab === 'inhouse_members' && this.renderMembers('inhouse_members')}
 						<Button variant="contained" className="company-view-actions-save" color="primary" onClick={this.assignEmployees}> Assign </Button>
                         <Button variant="contained" className="company-view-actions-cancel" onClick={this.handleClose}>  Cancel </Button>
 					</DialogContent>
@@ -138,3 +136,4 @@ export default class AssignComponent extends React.Component {
 		)
 	}
 }
+export default DateContextHOC(AssignComponent);

@@ -1,6 +1,7 @@
 import React from 'react';
 import './shifts-orders-component.css'
 import ShiftsOrdersNavComponent from './shifts-orders-nav-component'
+import DateProvider from './../context/DateProvider';
 
 
 export default function ShiftsOrdersComponent(){
@@ -10,6 +11,8 @@ export default function ShiftsOrdersComponent(){
                     <span> Employees </span> 
                     <span> Dashboard > Employees</span>
                 </div>
-                <ShiftsOrdersNavComponent />
+                <DateProvider>
+                    <ShiftsOrdersNavComponent />
+                </DateProvider>
             </div>)
  }

@@ -20,7 +20,8 @@ export default class ShiftViewButtonsComponent extends React.Component {
 
     postShift = () => {
         //console.log(this.props.shift_date,this.props.id)
-        postShift(this.props.date,this.props.id).then((response)=>{
+        let {date} = this.props && this.props.context;
+        postShift(this.props.date,this.props.id,date).then((response)=>{
             console.log(response)
         })
     }   
