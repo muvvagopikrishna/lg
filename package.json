@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^7.2.1",
     "ag-grid-community": "^22.1.1",
     "ag-grid-react": "^22.1.1",
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "date-fns": "^2.8.1",
     "i": "^0.3.6",
     "npm": "^6.13.4",
